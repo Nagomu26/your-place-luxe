@@ -1,0 +1,238 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 30 12% 4%;
+    --foreground: 40 38% 92%;
+    --card: 26 18% 9%;
+    --card-foreground: 40 38% 92%;
+    --popover: 26 18% 9%;
+    --popover-foreground: 40 38% 92%;
+    --primary: 38 34% 44%;
+    --primary-foreground: 30 12% 4%;
+    --secondary: 26 18% 12%;
+    --secondary-foreground: 40 38% 92%;
+    --muted: 26 18% 12%;
+    --muted-foreground: 34 16% 62%;
+    --accent: 38 28% 22%;
+    --accent-foreground: 40 38% 92%;
+    --destructive: 0 60% 45%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 34 18% 16%;
+    --input: 34 18% 16%;
+    --ring: 38 34% 44%;
+    --radius: 0rem;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  section[id],
+  footer[id] {
+    scroll-margin-top: 4.5rem;
+  }
+
+  body {
+    background-color: #0b0908;
+    color: #f2ead8;
+    font-family: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: rgba(196, 160, 92, 0.4);
+    color: #f2ead8;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0b0908;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2c231a;
+    border-radius: 6px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #c4a05c;
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid #c4a05c;
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@layer components {
+  /* Grano de cine sutil sobre imágenes y fondos */
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.55;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  }
+
+  /* Texto dorado metalizado para acentos */
+  .text-goldmetal {
+    background: linear-gradient(105deg, #c4a05c 0%, #e5ca92 40%, #8f713c 70%, #f2e6c8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* Brillo que cruza el botón */
+  .btn-sheen {
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-sheen::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -80%;
+    width: 45%;
+    height: 100%;
+    background: linear-gradient(105deg, transparent, rgba(242, 234, 216, 0.35), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.6s ease;
+  }
+  .btn-sheen:hover::after {
+    left: 130%;
+  }
+
+  /* Regla dorada fina */
+  .gold-rule {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(196, 160, 92, 0.7) 20%,
+      rgba(196, 160, 92, 0.7) 80%,
+      transparent
+    );
+  }
+
+  /* Resplandor ambiental dorado */
+  .glow-gold {
+    background: radial-gradient(circle at center, rgba(196, 160, 92, 0.16) 0%, transparent 65%);
+  }
+
+  /* Tarjetas con elevación suave y borde dorado al pasar */
+  .card-lift {
+    transition:
+      transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.4s ease,
+      background-color 0.4s ease;
+  }
+  .card-lift:hover {
+    transform: translateY(-3px);
+    border-color: rgba(196, 160, 92, 0.55);
+  }
+
+  /* Franja ocupada en la rejilla de horas */
+  .slot-occupied {
+    background-image: repeating-linear-gradient(
+      135deg,
+      rgba(44, 35, 26, 0.55) 0px,
+      rgba(44, 35, 26, 0.55) 3px,
+      transparent 3px,
+      transparent 8px
+    );
+  }
+
+  .day-option,
+  .slot-option,
+  .service-option {
+    transition: all 0.2s ease;
+  }
+  .day-option:hover,
+  .slot-option:hover,
+  .service-option:hover {
+    transform: translateY(-1px);
+  }
+  .slot-option:disabled:hover,
+  .day-option:focus-visible,
+  .service-option:focus-visible {
+    transform: none;
+  }
+
+  /* Conector visual entre pasos del formulario */
+  .step-badge {
+    background: linear-gradient(135deg, #8f713c, #c4a05c 60%, #e5ca92);
+    color: #0b0908;
+  }
+
+  /* Estado SELECCIONADO de día / hora / servicio */
+  .seleccionado {
+    background: linear-gradient(135deg, #8f713c 0%, #c4a05c 55%, #e5ca92 100%) !important;
+    border-color: #d8b877 !important;
+    box-shadow:
+      0 0 0 1px rgba(229, 202, 146, 0.28),
+      0 6px 22px -8px rgba(196, 160, 92, 0.6) !important;
+  }
+  .seleccionado,
+  .seleccionado span {
+    color: #0b0908 !important;
+  }
+
+  /* Marquee de servicios (loop infinito) */
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 30s linear infinite;
+  }
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+    }
+  }
+
+  /* Revelado de secciones al hacer scroll */
+  .reveal-target {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal-target.reveal-in {
+    opacity: 1;
+    transform: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-target {
+      opacity: 1;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+}
